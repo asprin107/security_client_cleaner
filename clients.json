@@ -1,0 +1,172 @@
+{
+  "_comment": "한국 금융/공공기관 강제설치 보안 클라이언트 카탈로그. macOS(cleanup_macos.sh)와 Windows(cleanup_windows.ps1) 스크립트가 참조하는 단일 진실 공급원(SSOT). 경로/언인스톨러 출처: MacSAFER plugins.json, 각 제조사 공식 삭제 가이드.",
+  "_warning": "이들 프로그램은 은행/공공 사이트 재접속 시 자동 재설치됩니다. 삭제는 일회성이며, 해당 서비스를 계속 쓰려면 인증/결제에 지장이 생길 수 있습니다.",
+  "version": "2026.06",
+  "clients": [
+    {
+      "id": "ahnlab-astx",
+      "name": "AhnLab Safe Transaction (ASTx)",
+      "vendor": "안랩",
+      "macos": {
+        "detect": ["/Applications/AhnLab/ASTx"],
+        "uninstaller": "/Applications/AhnLab/ASTx/astxUninstaller",
+        "residual": ["/Applications/AhnLab/ASTx", "/Library/Application Support/AhnLab"],
+        "launchd_patterns": ["com.ahnlab"]
+      },
+      "windows": {
+        "displayName_patterns": ["AhnLab Safe Transaction", "ASTx"],
+        "service_patterns": ["ASTx", "AhnLab"]
+      }
+    },
+    {
+      "id": "ahnlab-aos",
+      "name": "AhnLab Online Security (방화벽)",
+      "vendor": "안랩",
+      "macos": {
+        "detect": ["/Applications/AhnLab/ASP/Firewall"],
+        "uninstaller": "/Applications/AhnLab/ASP/Firewall/ahnlabfwUninstaller",
+        "residual": ["/Applications/AhnLab/ASP"],
+        "launchd_patterns": ["com.ahnlab"]
+      },
+      "windows": {
+        "displayName_patterns": ["AhnLab Online Security", "AhnLab", "AOS"],
+        "service_patterns": ["AhnLab"]
+      }
+    },
+    {
+      "id": "touchen-nxkey",
+      "name": "TouchEn nxKey (키보드 보안)",
+      "vendor": "라온시큐어",
+      "macos": {
+        "detect": ["/Applications/TouchEn nxKey"],
+        "uninstaller": "/Applications/TouchEn nxKey/TKUninstall.app/Contents/MacOS/TKUninstall",
+        "residual": ["/Applications/TouchEn nxKey"],
+        "launchd_patterns": ["com.raon", "nxkey", "touchen"]
+      },
+      "windows": {
+        "displayName_patterns": ["TouchEn nxKey", "nxKey", "TouchEn"],
+        "service_patterns": ["nxKey", "TouchEn"]
+      }
+    },
+    {
+      "id": "touchen-nxfirewall",
+      "name": "TouchEn nxFirewall",
+      "vendor": "라온시큐어",
+      "macos": {
+        "detect": ["/Applications/raonsecure/TouchEnnxFirewall"],
+        "uninstaller": "",
+        "residual": ["/Applications/raonsecure/TouchEnnxFirewall"],
+        "launchd_patterns": ["com.raon", "nxfirewall", "touchen"]
+      },
+      "windows": {
+        "displayName_patterns": ["nxFirewall", "TouchEn nxFirewall"],
+        "service_patterns": ["nxFirewall"]
+      }
+    },
+    {
+      "id": "raon-crossex",
+      "name": "CrossEX / CrossWeb / CrossWarpEX (브라우저 연동)",
+      "vendor": "라온시큐어",
+      "macos": {
+        "detect": ["/Applications/CrossEX", "/Applications/CrossWeb", "/Applications/CrossWebEX", "/Applications/CrossWarpEX"],
+        "uninstaller": "",
+        "residual": ["/Applications/CrossEX", "/Applications/CrossWeb", "/Applications/CrossWebEX", "/Applications/CrossWarpEX"],
+        "launchd_patterns": ["com.raon", "crossex", "crossweb"]
+      },
+      "windows": {
+        "displayName_patterns": ["CrossEX", "CrossWeb", "CrossWarp"],
+        "service_patterns": ["CrossEX", "CrossWeb"]
+      }
+    },
+    {
+      "id": "nprotect-nos",
+      "name": "nProtect Online Security / Netizen",
+      "vendor": "잉카인터넷",
+      "macos": {
+        "detect": ["/Applications/nProtect", "/Applications/nProtect Netizen"],
+        "uninstaller": "/Applications/nProtect/nosuninst",
+        "residual": ["/Applications/nProtect", "/Applications/nProtect Netizen"],
+        "launchd_patterns": ["com.inca", "nprotect", "npkc"]
+      },
+      "windows": {
+        "displayName_patterns": ["nProtect", "INCA"],
+        "service_patterns": ["nProtect", "npkc", "INCA"]
+      }
+    },
+    {
+      "id": "delfino",
+      "name": "Delfino (델피노, 키보드 보안)",
+      "vendor": "소만사",
+      "macos": {
+        "detect": ["/Applications/Delfino"],
+        "uninstaller": "",
+        "residual": ["/Applications/Delfino"],
+        "launchd_patterns": ["delfino", "com.somansa"]
+      },
+      "windows": {
+        "displayName_patterns": ["Delfino"],
+        "service_patterns": ["Delfino"]
+      }
+    },
+    {
+      "id": "veraport",
+      "name": "Veraport (베라포트, 통합설치관리)",
+      "vendor": "위즈베라",
+      "macos": {
+        "detect": ["/Applications/Veraport"],
+        "uninstaller": "",
+        "residual": ["/Applications/Veraport"],
+        "launchd_patterns": ["com.wizvera", "veraport"]
+      },
+      "windows": {
+        "displayName_patterns": ["Veraport", "Wizvera"],
+        "service_patterns": ["Veraport"]
+      }
+    },
+    {
+      "id": "ipinside",
+      "name": "IPInside (아이피인사이드, 접속기록)",
+      "vendor": "엔에스에이",
+      "macos": {
+        "detect": ["/Applications/NWS_IPinside"],
+        "uninstaller": "/Applications/NWS_IPinside/NWSUninstaller",
+        "residual": ["/Applications/NWS_IPinside"],
+        "launchd_patterns": ["ipinside", "nws"]
+      },
+      "windows": {
+        "displayName_patterns": ["IPinside", "IPInside"],
+        "service_patterns": ["IPinside"]
+      }
+    },
+    {
+      "id": "inisafe",
+      "name": "INISAFE (이니세이프) 시리즈",
+      "vendor": "이니텍",
+      "macos": {
+        "detect": ["/Applications/INISAFE MoaSign EX Uninstaller", "/Applications/INISAFE MoaSign S Uninstaller"],
+        "uninstaller": "",
+        "residual": ["/Applications/INISAFE MoaSign EX Uninstaller", "/Applications/INISAFE MoaSign S Uninstaller"],
+        "launchd_patterns": ["inisafe", "com.initech"]
+      },
+      "windows": {
+        "displayName_patterns": ["INISAFE", "Initech"],
+        "service_patterns": ["INISAFE"]
+      }
+    },
+    {
+      "id": "anysign4pc",
+      "name": "AnySign4PC (전자서명)",
+      "vendor": "소프트포럼/펜타시큐리티",
+      "macos": {
+        "detect": ["/Applications/SoftForum"],
+        "uninstaller": "",
+        "residual": ["/Applications/SoftForum"],
+        "launchd_patterns": ["anysign", "com.softforum", "com.pentasecurity"]
+      },
+      "windows": {
+        "displayName_patterns": ["AnySign", "SoftForum"],
+        "service_patterns": ["AnySign"]
+      }
+    }
+  ]
+}
