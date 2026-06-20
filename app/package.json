@@ -1,0 +1,52 @@
+{
+  "name": "security-client-cleaner",
+  "version": "1.0.0",
+  "description": "한국 금융/공공기관 강제설치 보안 클라이언트 정리 데스크톱 앱 (macOS/Windows)",
+  "main": "src/main/main.js",
+  "bin": {
+    "scc": "src/cli.js"
+  },
+  "scripts": {
+    "start": "electron .",
+    "cli": "node src/cli.js",
+    "test": "node test/scan.js",
+    "predist": "node scripts/clean.js",
+    "dist": "electron-builder"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "sudo-prompt": "^9.2.1"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^26.15.3"
+  },
+  "build": {
+    "appId": "com.example.securityclientcleaner",
+    "productName": "Security Client Cleaner",
+    "files": [
+      "src/**/*",
+      "clients.json"
+    ],
+    "extraResources": [
+      {
+        "from": "clients.json",
+        "to": "clients.json"
+      }
+    ],
+    "mac": {
+      "category": "public.app-category.utilities",
+      "icon": "build/icon.icns",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    }
+  }
+}

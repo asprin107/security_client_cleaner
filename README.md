@@ -1,69 +1,69 @@
 # 한국 보안 클라이언트 일괄 정리 도구
 
 한국 금융·공공기관 사이트가 강제 설치하는 보안 클라이언트(안랩 ASTx, nProtect, TouchEn,
-Veraport, INISAFE, Delfino, IPInside, AnySign 등)를 탐지하고 일괄 제거하는
-크로스플랫폼 스크립트입니다.
+Veraport, INISAFE, Delfino, IPInside, AnySign 등)를 탐지하고 제거하는 크로스플랫폼 도구입니다.
 
 이들 클라이언트는 반복적으로 심각한 취약점(예: nProtect Netizen 원격코드실행, INISAFE
 CrossWeb EX 공급망 공격)의 통로가 되어 왔으며, KISA·과기정통부도 구버전 보안 SW를 탐지·
 삭제하는 "보안 취약점 클리닝 서비스"를 운영하고 있습니다.
 
-## 구성
+## 아키텍처
 
-| 파일 | 설명 |
-|---|---|
-| `clients.json` | 대상 클라이언트 카탈로그 (단일 진실 공급원). 두 스크립트가 이 목록을 미러링 |
-| `cleanup_macos.sh` | macOS용 (bash, 의존성 없음) |
-| `cleanup_windows.ps1` | Windows용 (PowerShell 5+) |
+**하나의 핵심 로직(`app/src/core/`)** 위에 **GUI와 CLI 두 프런트엔드**가 올라간 구조입니다.
+(이전의 독립 bash/PowerShell 스크립트는 폐기됨 — 코드 중복으로 인한 탐지 결과 불일치 제거)
 
-## 동작 방식
+```
+app/
+  clients.json            ← 대상 클라이언트 카탈로그 (단일 진실 공급원)
+  src/core/               ← Electron 비의존 순수 Node 로직 (탐지·삭제)
+    catalog.js scanner.js remover.js
+  src/main/ + renderer/   ← GUI (Electron)
+  src/cli.js              ← CLI (동일한 core/ 사용)
+  test/scan.js            ← 코어 단독 검증
+```
 
-1. **탐지** — 설치 경로(macOS) 또는 레지스트리 언인스톨 키 + 폴더(Windows)로 설치 여부 확인
-2. **공식 언인스톨러 실행** — 각 제조사 공식 언인스톨러를 우선 호출 (가장 안전)
-3. **잔여물 정리** — LaunchDaemons/LaunchAgents(macOS) 또는 서비스(Windows) 중지·삭제 후 남은 폴더 제거
+> GUI와 CLI는 같은 `scanner.js`를 쓰므로 **탐지 결과가 항상 동일**합니다.
 
-> **기본은 DRY-RUN(미리보기)입니다.** 실제 삭제는 명시적으로 `--apply`/`-Apply`를 줘야 합니다.
+## 탐지·삭제 방식
 
-## 사용법 (macOS)
+1. **탐지** — macOS: 설치 경로 + launchd plist(데몬/에이전트 잔재 포함) / Windows: 레지스트리 언인스톨 키 + 폴더
+2. **공식 언인스톨러 실행** — 각 제조사 공식 언인스톨러 우선 호출
+3. **잔여물 정리** — LaunchDaemons/LaunchAgents(macOS)·서비스(Windows) 중지·삭제 후 남은 폴더 제거
+
+## 사용법
 
 ```bash
-./cleanup_macos.sh            # 무엇이 삭제될지 미리보기 (변경 없음)
-./cleanup_macos.sh --list     # 대상 카탈로그만 출력
-./cleanup_macos.sh --apply    # 실제 삭제 (항목마다 y/N 확인)
-./cleanup_macos.sh --apply --force   # 확인 없이 일괄 삭제
+cd app
+npm install
+
+# CLI
+npm run cli -- scan            # 설치 탐지 결과
+npm run cli -- list            # 전체 카탈로그
+npm run cli -- plan            # 삭제 명령 미리보기 (dry-run, 변경 없음)
+npm run cli -- remove          # 실제 삭제 (확인 후 sudo)
+npm run cli -- remove veraport delfino   # 특정 항목만
+
+# GUI
+npm start
 ```
 
-잔여물(`/Library/LaunchDaemons` 등) 정리에 관리자 권한이 필요하면 자동으로 sudo를 요청합니다.
+CLI를 `scc` 명령으로 전역 설치하려면 `npm link` (또는 `npm i -g .`) 후 `scc scan` 등으로 사용.
 
-## 사용법 (Windows)
-
-**관리자 권한 PowerShell**에서 실행하세요. 최초 1회 실행 정책 허용이 필요할 수 있습니다:
-
-```powershell
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass   # 현재 세션만 허용
-.\cleanup_windows.ps1            # 미리보기 (변경 없음)
-.\cleanup_windows.ps1 -List      # 대상 카탈로그 출력
-.\cleanup_windows.ps1 -Apply     # 실제 삭제 (항목마다 확인)
-.\cleanup_windows.ps1 -Apply -Force   # 확인 없이 일괄 삭제
-```
+자세한 실행/패키징/문제해결은 [`app/README.md`](app/README.md) 참고.
 
 ## ⚠️ 반드시 알아둘 점
 
-- **자동 재설치됩니다.** 은행/공공/카드 사이트에 재접속하면 해당 사이트가 클라이언트를
-  다시 설치합니다. 이 도구는 일회성 정리이며, 근본 해결이 아닙니다. 계속 깨끗이 유지하려면
-  해당 사이트 사용을 줄이거나 별도 브라우저/프로파일로 분리하세요.
-- **서비스 이용에 지장이 생길 수 있습니다.** 실제로 사용하는 인터넷뱅킹/전자서명/공인인증
-  기능이 동작하지 않을 수 있습니다. 필요한 클라이언트는 `--list`로 확인 후 제외하세요.
-- **관리자 권한 필요.** 데몬/서비스/시스템 경로 정리에는 sudo(macOS) 또는 관리자
-  PowerShell(Windows)이 필요합니다.
-- **공식 언인스톨러 우선.** 강제 파일 삭제보다 제조사 언인스톨러를 먼저 실행해 안전하게
-  제거하고, 그 후 남은 잔여물만 정리합니다.
+- **자동 재설치됩니다.** 은행/공공/카드 사이트 재접속 시 다시 설치됩니다. 이 도구는 일회성
+  정리이며 근본 해결이 아닙니다.
+- **서비스 이용에 지장이 생길 수 있습니다.** 실제 사용하는 인터넷뱅킹/전자서명 기능이
+  동작하지 않을 수 있습니다. `scan`/`list`로 확인 후 필요한 항목은 제외하세요.
+- **관리자 권한 필요.** 삭제 시 sudo(macOS) 또는 관리자 권한(Windows)이 필요합니다.
+- **Windows 경로는 Windows에서 검증 필요** — 레지스트리 조회는 PowerShell 기반이라 macOS에서
+  테스트 불가.
 
-## 대상 클라이언트 추가/제외
+## 대상 클라이언트 추가/수정
 
-`clients.json`이 기준 목록입니다. 항목을 추가하려면 해당 OS 스크립트의 카탈로그
-(`cleanup_macos.sh`의 `CLIENTS` 배열, `cleanup_windows.ps1`의 `$Clients`)에도
-같은 형식으로 추가하세요.
+`app/clients.json` 한 곳만 수정하면 GUI·CLI·테스트에 모두 반영됩니다.
 
 ## 출처
 

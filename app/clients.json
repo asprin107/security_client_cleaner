@@ -11,11 +11,12 @@
         "detect": ["/Applications/AhnLab/ASTx"],
         "uninstaller": "/Applications/AhnLab/ASTx/astxUninstaller",
         "residual": ["/Applications/AhnLab/ASTx", "/Library/Application Support/AhnLab"],
-        "launchd_patterns": ["com.ahnlab"]
+        "launchd_patterns": ["astx"]
       },
       "windows": {
         "displayName_patterns": ["AhnLab Safe Transaction", "ASTx"],
-        "service_patterns": ["ASTx", "AhnLab"]
+        "service_patterns": ["ASTx", "AhnLab"],
+        "residual": ["AhnLab\\Safe Transaction", "AhnLab\\ASTx"]
       }
     },
     {
@@ -26,11 +27,12 @@
         "detect": ["/Applications/AhnLab/ASP/Firewall"],
         "uninstaller": "/Applications/AhnLab/ASP/Firewall/ahnlabfwUninstaller",
         "residual": ["/Applications/AhnLab/ASP"],
-        "launchd_patterns": ["com.ahnlab"]
+        "launchd_patterns": ["ahnlabfw", "ahnlab.fw"]
       },
       "windows": {
         "displayName_patterns": ["AhnLab Online Security", "AhnLab", "AOS"],
-        "service_patterns": ["AhnLab"]
+        "service_patterns": ["AhnLab"],
+        "residual": ["AhnLab\\ASP"]
       }
     },
     {
@@ -41,11 +43,12 @@
         "detect": ["/Applications/TouchEn nxKey"],
         "uninstaller": "/Applications/TouchEn nxKey/TKUninstall.app/Contents/MacOS/TKUninstall",
         "residual": ["/Applications/TouchEn nxKey"],
-        "launchd_patterns": ["com.raon", "nxkey", "touchen"]
+        "launchd_patterns": ["nxkey"]
       },
       "windows": {
         "displayName_patterns": ["TouchEn nxKey", "nxKey", "TouchEn"],
-        "service_patterns": ["nxKey", "TouchEn"]
+        "service_patterns": ["nxKey", "TouchEn"],
+        "residual": ["RaonSecure\\TouchEn nxKey", "TouchEn nxKey"]
       }
     },
     {
@@ -56,11 +59,12 @@
         "detect": ["/Applications/raonsecure/TouchEnnxFirewall"],
         "uninstaller": "",
         "residual": ["/Applications/raonsecure/TouchEnnxFirewall"],
-        "launchd_patterns": ["com.raon", "nxfirewall", "touchen"]
+        "launchd_patterns": ["nxfirewall"]
       },
       "windows": {
         "displayName_patterns": ["nxFirewall", "TouchEn nxFirewall"],
-        "service_patterns": ["nxFirewall"]
+        "service_patterns": ["nxFirewall"],
+        "residual": ["RaonSecure\\nxFirewall"]
       }
     },
     {
@@ -71,11 +75,12 @@
         "detect": ["/Applications/CrossEX", "/Applications/CrossWeb", "/Applications/CrossWebEX", "/Applications/CrossWarpEX"],
         "uninstaller": "",
         "residual": ["/Applications/CrossEX", "/Applications/CrossWeb", "/Applications/CrossWebEX", "/Applications/CrossWarpEX"],
-        "launchd_patterns": ["com.raon", "crossex", "crossweb"]
+        "launchd_patterns": ["crossex", "crossweb", "crosswarp"]
       },
       "windows": {
         "displayName_patterns": ["CrossEX", "CrossWeb", "CrossWarp"],
-        "service_patterns": ["CrossEX", "CrossWeb"]
+        "service_patterns": ["CrossEX", "CrossWeb"],
+        "residual": ["RaonSecure\\CrossEX", "CrossEX"]
       }
     },
     {
@@ -86,26 +91,28 @@
         "detect": ["/Applications/nProtect", "/Applications/nProtect Netizen"],
         "uninstaller": "/Applications/nProtect/nosuninst",
         "residual": ["/Applications/nProtect", "/Applications/nProtect Netizen"],
-        "launchd_patterns": ["com.inca", "nprotect", "npkc"]
+        "launchd_patterns": ["nprotect", "npkc"]
       },
       "windows": {
         "displayName_patterns": ["nProtect", "INCA"],
-        "service_patterns": ["nProtect", "npkc", "INCA"]
+        "service_patterns": ["nProtect", "npkc", "INCA"],
+        "residual": ["INCAInternet", "nProtect"]
       }
     },
     {
       "id": "delfino",
       "name": "Delfino (델피노, 키보드 보안)",
-      "vendor": "소만사",
+      "vendor": "위즈베라",
       "macos": {
         "detect": ["/Applications/Delfino"],
         "uninstaller": "",
         "residual": ["/Applications/Delfino"],
-        "launchd_patterns": ["delfino", "com.somansa"]
+        "launchd_patterns": ["delfino"]
       },
       "windows": {
         "displayName_patterns": ["Delfino"],
-        "service_patterns": ["Delfino"]
+        "service_patterns": ["Delfino"],
+        "residual": ["SOMANSA\\Delfino", "Delfino"]
       }
     },
     {
@@ -116,11 +123,12 @@
         "detect": ["/Applications/Veraport"],
         "uninstaller": "",
         "residual": ["/Applications/Veraport"],
-        "launchd_patterns": ["com.wizvera", "veraport"]
+        "launchd_patterns": ["veraport"]
       },
       "windows": {
         "displayName_patterns": ["Veraport", "Wizvera"],
-        "service_patterns": ["Veraport"]
+        "service_patterns": ["Veraport"],
+        "residual": ["Wizvera\\Veraport20", "Wizvera"]
       }
     },
     {
@@ -131,11 +139,12 @@
         "detect": ["/Applications/NWS_IPinside"],
         "uninstaller": "/Applications/NWS_IPinside/NWSUninstaller",
         "residual": ["/Applications/NWS_IPinside"],
-        "launchd_patterns": ["ipinside", "nws"]
+        "launchd_patterns": ["ipinside"]
       },
       "windows": {
         "displayName_patterns": ["IPinside", "IPInside"],
-        "service_patterns": ["IPinside"]
+        "service_patterns": ["IPinside"],
+        "residual": ["IPinside"]
       }
     },
     {
@@ -146,11 +155,12 @@
         "detect": ["/Applications/INISAFE MoaSign EX Uninstaller", "/Applications/INISAFE MoaSign S Uninstaller"],
         "uninstaller": "",
         "residual": ["/Applications/INISAFE MoaSign EX Uninstaller", "/Applications/INISAFE MoaSign S Uninstaller"],
-        "launchd_patterns": ["inisafe", "com.initech"]
+        "launchd_patterns": ["inisafe"]
       },
       "windows": {
         "displayName_patterns": ["INISAFE", "Initech"],
-        "service_patterns": ["INISAFE"]
+        "service_patterns": ["INISAFE"],
+        "residual": ["Initech\\INISAFE", "INISAFE"]
       }
     },
     {
@@ -161,11 +171,12 @@
         "detect": ["/Applications/SoftForum"],
         "uninstaller": "",
         "residual": ["/Applications/SoftForum"],
-        "launchd_patterns": ["anysign", "com.softforum", "com.pentasecurity"]
+        "launchd_patterns": ["anysign"]
       },
       "windows": {
         "displayName_patterns": ["AnySign", "SoftForum"],
-        "service_patterns": ["AnySign"]
+        "service_patterns": ["AnySign"],
+        "residual": ["SoftForum", "AnySign"]
       }
     }
   ]

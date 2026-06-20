@@ -1,0 +1,70 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="512" y1="64" x2="512" y2="960" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7CE7A4"/>
+      <stop offset="1" stop-color="#2BB568"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="512" y1="225" x2="512" y2="800" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#34C964"/>
+      <stop offset="0.55" stop-color="#159B47"/>
+      <stop offset="1" stop-color="#0A5E2C"/>
+    </linearGradient>
+    <linearGradient id="wood" x1="570" y1="240" x2="710" y2="510" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E6C089"/>
+      <stop offset="1" stop-color="#9C6A35"/>
+    </linearGradient>
+    <linearGradient id="straw" x1="620" y1="546" x2="620" y2="728" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F9D77E"/>
+      <stop offset="1" stop-color="#D39A2C"/>
+    </linearGradient>
+    <filter id="ds" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#063a1c" flood-opacity="0.30"/>
+    </filter>
+  </defs>
+
+  <!-- 배경 타일 -->
+  <rect x="64" y="64" width="896" height="896" rx="210" fill="#FFFFFF"/>
+
+  <!-- 방패 (가운데, 더 크고 두껍게) -->
+  <g>
+    <g filter="url(#ds)">
+      <path d="M297 312 Q297 225 384 225 L640 225 Q727 225 727 312 L727 490
+               C727 648 626 742 512 800 C398 742 297 648 297 490 Z"
+            fill="url(#shield)" stroke="#0a5a2b" stroke-width="9"/>
+    </g>
+    <!-- 상단 광택 -->
+    <path d="M297 312 Q297 225 384 225 L640 225 Q727 225 727 312 L727 484
+             C600 532 424 532 297 484 Z" fill="#ffffff" fill-opacity="0.26"/>
+    <!-- 흰색 안쪽 테두리 (더 두껍게) -->
+    <path d="M331 326 Q331 261 387 261 L637 261 Q693 261 693 326 L693 488
+             C693 612 612 696 512 738 C412 696 331 612 331 488 Z"
+          fill="none" stroke="#ffffff" stroke-opacity="0.34" stroke-width="16"/>
+    <!-- 반짝임 -->
+    <g fill="#ffffff">
+      <path d="M470 299 L486 339 L526 355 L486 371 L470 411 L454 371 L414 355 L454 339 Z"/>
+      <path d="M424 424 L434 448 L458 458 L434 468 L424 492 L414 468 L390 458 L414 448 Z" fill-opacity="0.9"/>
+    </g>
+  </g>
+
+  <!-- 빗자루 (대각선, 사각형 솔) -->
+  <g transform="rotate(33 620 520)" filter="url(#ds)">
+    <!-- 솔 (좌우 평행 = 사각형, 끝만 살짝 갈라짐) -->
+    <path d="M520 546 L720 546 L732 712 C734 722 726 728 716 728
+             C690 734 660 730 620 732 C580 734 550 730 524 728
+             C514 728 506 722 508 712 Z"
+          fill="url(#straw)" stroke="#B9842A" stroke-width="5"/>
+    <g stroke="#B9842A" stroke-width="13" stroke-linecap="round">
+      <path d="M620 560 L620 726"/>
+      <path d="M586 560 L582 728"/>
+      <path d="M654 560 L658 728"/>
+      <path d="M552 560 L544 724"/>
+      <path d="M688 560 L696 724"/>
+    </g>
+    <!-- 자루 끝(밴드) — 사각 솔 폭에 맞춰 넓힘 -->
+    <rect x="512" y="486" width="216" height="60" rx="22" fill="#7A4A22"/>
+    <rect x="512" y="495" width="216" height="13" rx="6" fill="#A9743A"/>
+    <!-- 손잡이 -->
+    <rect x="572" y="236" width="96" height="258" rx="48" fill="url(#wood)" stroke="#6f4a23" stroke-width="5"/>
+    <rect x="584" y="252" width="17" height="224" rx="8" fill="#ffffff" fill-opacity="0.35"/>
+  </g>
+</svg>

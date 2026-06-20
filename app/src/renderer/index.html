@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+  <title>Security Client Cleaner</title>
+  <style>
+    :root {
+      --bg: #0f1419; --panel: #1a2029; --panel2: #232b36; --border: #2e3a47;
+      --text: #e6edf3; --muted: #8b98a6; --accent: #4ea1ff; --danger: #ff5c5c;
+      --ok: #3fb950; --warn: #e3b341;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, "Segoe UI", "Apple SD Gothic Neo", sans-serif;
+      background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; }
+    header { padding: 18px 22px; border-bottom: 1px solid var(--border); background: var(--panel); }
+    header h1 { font-size: 17px; font-weight: 650; }
+    header p { font-size: 12.5px; color: var(--muted); margin-top: 4px; line-height: 1.5; }
+    .toolbar { display: flex; gap: 10px; align-items: center; padding: 12px 22px;
+      border-bottom: 1px solid var(--border); background: var(--panel); flex-wrap: wrap; }
+    .toolbar .spacer { flex: 1; }
+    .toolbar label { font-size: 12.5px; color: var(--muted); display: flex; align-items: center; gap: 6px; cursor: pointer; }
+    button { font: inherit; font-size: 13px; padding: 7px 14px; border-radius: 7px; border: 1px solid var(--border);
+      background: var(--panel2); color: var(--text); cursor: pointer; transition: .12s; }
+    button:hover { border-color: var(--accent); }
+    button:disabled { opacity: .45; cursor: not-allowed; border-color: var(--border); }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #05121f; font-weight: 600; }
+    button.danger { background: var(--danger); border-color: var(--danger); color: #1a0505; font-weight: 600; }
+    main { flex: 1; overflow-y: auto; padding: 14px 22px; }
+    .empty { color: var(--muted); text-align: center; padding: 60px 20px; font-size: 14px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; }
+    .card.notinstalled { opacity: .5; }
+    .card input[type=checkbox] { margin-top: 3px; width: 16px; height: 16px; accent-color: var(--accent); }
+    .card .body { flex: 1; min-width: 0; }
+    .card .name { font-size: 14px; font-weight: 600; }
+    .card .vendor { font-size: 12px; color: var(--muted); margin-left: 7px; font-weight: 400; }
+    .badge { font-size: 11px; padding: 2px 8px; border-radius: 20px; font-weight: 600; }
+    .badge.on { background: rgba(63,185,80,.16); color: var(--ok); }
+    .badge.off { background: rgba(139,152,166,.14); color: var(--muted); }
+    .evidence { margin-top: 7px; font-size: 12px; color: var(--muted); line-height: 1.6; font-family: ui-monospace, monospace; word-break: break-all; }
+    footer { border-top: 1px solid var(--border); background: var(--panel); padding: 12px 22px; }
+    .actions { display: flex; gap: 10px; align-items: center; }
+    .actions .count { font-size: 12.5px; color: var(--muted); margin-right: auto; }
+    pre.log { background: #0a0e13; border: 1px solid var(--border); border-radius: 8px; padding: 12px;
+      font-family: ui-monospace, monospace; font-size: 12px; color: #c9d4df; max-height: 230px;
+      overflow: auto; white-space: pre-wrap; word-break: break-all; margin-top: 12px; display: none; }
+    pre.log.show { display: block; }
+    .modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,.6); display: none; align-items: center; justify-content: center; }
+    .modal-bg.show { display: flex; }
+    .modal { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 22px; width: 440px; max-width: 90vw; }
+    .modal h3 { font-size: 15px; margin-bottom: 10px; }
+    .modal p { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+    .modal .row { display: flex; gap: 10px; justify-content: flex-end; }
+    .warn-text { color: var(--warn); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🧹 Security Client Cleaner</h1>
+    <p>한국 금융/공공기관 강제설치 보안 클라이언트를 탐지하고 제거합니다.
+       <span class="warn-text">은행/공공 사이트 재접속 시 자동 재설치될 수 있으며, 해당 서비스 이용에 지장이 생길 수 있습니다.</span></p>
+  </header>
+
+  <div class="toolbar">
+    <button id="rescan">↻ 다시 스캔</button>
+    <button id="selectAll">전체 선택</button>
+    <div class="spacer"></div>
+    <label><input type="checkbox" id="showAll" /> 미설치 항목도 표시</label>
+    <span id="platform" style="font-size:12px;color:var(--muted)"></span>
+  </div>
+
+  <main id="list"><div class="empty">스캔 중…</div></main>
+
+  <footer>
+    <div class="actions">
+      <span class="count" id="count">선택: 0</span>
+      <button id="preview">미리보기 (dry-run)</button>
+      <button id="removeBtn" class="danger">선택 삭제</button>
+    </div>
+    <pre class="log" id="log"></pre>
+  </footer>
+
+  <div class="modal-bg" id="modalBg">
+    <div class="modal">
+      <h3>⚠️ 정말 삭제하시겠습니까?</h3>
+      <p id="modalText"></p>
+      <p class="warn-text">관리자 권한(비밀번호) 입력 창이 한 번 표시됩니다. 공식 언인스톨러 실행 후 잔여 파일/데몬을 정리합니다.</p>
+      <div class="row">
+        <button id="modalCancel">취소</button>
+        <button id="modalOk" class="danger">삭제 진행</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>
